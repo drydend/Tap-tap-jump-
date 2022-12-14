@@ -3,9 +3,17 @@ using UnityEngine;
 public class PlayerInstaller : MonoInstaller
 {
     [SerializeField]
-    private Player _player;
+    private Transform _startPosition;
+    [SerializeField]
+    private Player _playerPrefab;
     public override void InstallBindings()
     {
-        Container.Bind<Player>().FromInstance(_player).AsSingle();
+        var player = Instantiate(_playerPrefab, _startPosition.position, Quaternion.identity);
+        player.Initialize(_startPosition);
+
+        Container
+            .Bind<Player>()
+            .FromInstance(player)
+            .AsSingle();
     }
 }

@@ -5,6 +5,9 @@ using Zenject;
 
 public class Level : MonoBehaviour
 {
+    [SerializeField]
+    private CameraFollower _cameraFollower;
+
     private StateMachine _stateMachine;
 
     private Player _player;
@@ -20,6 +23,12 @@ public class Level : MonoBehaviour
         _levelUIHolder = levelUIHolder;
         _winTrigger = levelWinTrigger;
         _pauser = levelPauser;
+    }
+
+    public void RestartLevel()
+    {
+        _stateMachine.SwitchState<LevelStartState>();
+        _cameraFollower.ResetPosition();
     }
 
     private void Awake()
@@ -42,7 +51,7 @@ public class Level : MonoBehaviour
         states[typeof(LevelRuningState)] = new LevelRuningState(_stateMachine,
             _levelUIHolder.GetLevelUI<LevelRuningStateUI>(),_player, _winTrigger, _pauser);
         states[typeof(LevelWinState)] = new LevelWinState(_player, _levelUIHolder.GetLevelUI<LevelCompleteScrene>());
-        states[typeof(LevelLoseState)] = new LevelLoseState(_player, _levelUIHolder.GetLevelUI<LevelLoseScrene>());
+        states[typeof(LevelLoseState)] = new LevelLoseState(_player, this, _levelUIHolder.GetLevelUI<LevelLoseScrene>());
         states[typeof(LevelPauseState)] = new LevelPauseState(_stateMachine, _pauser, 
             _levelUIHolder.GetLevelUI<PauseMenuUI>());
     }

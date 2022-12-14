@@ -1,21 +1,26 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]  
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private float _jumpForce;
+    [SerializeField]
+    private ParticleSystem _deathParticle;
+
+    private Transform _startPosition;
     private Rigidbody2D _rigidbody;
     private bool _isMovementEnable;
     private Vector2 _previousVelocity = Vector2.zero;
 
     public event Action OnDie;
 
-    private void Awake()
-    {   
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _rigidbody.gravityScale = 0;
+    public void Initialize(Transform startPosition)
+    {
+        _startPosition = startPosition;
     }
 
     public void EnableMovement()
@@ -32,15 +37,20 @@ public class Player : MonoBehaviour
         _isMovementEnable = false;
     }
 
-    public void SetVelocity(Vector2 velocity)
+    public void Jump(Vector2 direction)
     {
         if (!_isMovementEnable)
         {
             return;
         }
 
-        _rigidbody.gravityScale = 2;
-        _rigidbody.velocity = velocity;
+        _rigidbody.velocity = direction * _jumpForce;
+    }
+    public void ResetToStartPosition()
+    {
+        gameObject.SetActive(false);
+        transform.position = _startPosition.position;
+        gameObject.SetActive(true);
     }
 
     public void Die()
@@ -52,4 +62,10 @@ public class Player : MonoBehaviour
     {
         yield break;
     }
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
 }

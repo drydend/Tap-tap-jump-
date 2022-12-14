@@ -5,6 +5,9 @@ using Zenject;
 
 public class PlayerInput : MonoBehaviour, IPointerDownHandler
 {
+    [SerializeField]
+    private bool _invertControl;
+
     private Player _player;
     private Camera _camera;
 
@@ -21,8 +24,17 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
         OnPlayerTap?.Invoke();
 
         var clickPosition = _camera.ScreenToWorldPoint(eventData.position);
-        var directionToPlayer = _player.transform.position - clickPosition;
-        _player.SetVelocity(directionToPlayer.normalized * Mathf.Clamp(directionToPlayer.magnitude * 5, 3, 20));
+        var jumpDirection = (Vector2) (_camera.transform.position - clickPosition);
+        jumpDirection.Normalize();
+
+        if (_invertControl)
+        {
+            var x = jumpDirection.x * -1;
+            jumpDirection.x = jumpDirection.y;
+            jumpDirection.y = x;
+        }
+
+        _player.Jump(jumpDirection);
     }
 
 

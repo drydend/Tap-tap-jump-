@@ -6,6 +6,8 @@ public class LevelPauseState : BaseState
     private LevelPauser _pauser;
     private PauseMenuUI _menuUI;
 
+    private bool _isUIClosed;
+
     public LevelPauseState(StateMachine stateMachine, LevelPauser levelPauser, PauseMenuUI pauseMenu)
     {
         _stateMachine = stateMachine;
@@ -17,16 +19,33 @@ public class LevelPauseState : BaseState
     {
         _pauser.OnLevelUnpaused += OnUnpause;
         _menuUI.Open();
+        _isUIClosed = false;
     }
 
     public override void Exit()
     {
         _pauser.OnLevelUnpaused -= OnUnpause;
-        _menuUI.Close();
+
+        if (_pauser.IsPaused)
+        {
+            _pauser.Unpause();
+        }
+
+        if (!_isUIClosed)
+        {
+            Coroutines.StartRoutine(_menuUI.Close());
+        }
     }
 
     private void OnUnpause()
     {
-        _stateMachine.SwitchState<LevelRuningState>();
+        Coroutines.StartRoutine(OnUpauseRoutine());
+    }
+
+    private IEnumerator OnUpauseRoutine()
+    {
+        _isUIClosed = true;
+        yield return _menuUI.Close();
+        _stateMachine.SwitchToPreviousState();
     }
 }
