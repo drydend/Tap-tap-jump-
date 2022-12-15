@@ -52,8 +52,7 @@ public class Level : MonoBehaviour
             _levelUIHolder.GetLevelUI<LevelRuningStateUI>(),_player, _winTrigger, _pauser);
         states[typeof(LevelWinState)] = new LevelWinState(_player, _levelUIHolder.GetLevelUI<LevelCompleteScrene>());
         states[typeof(LevelLoseState)] = new LevelLoseState(_player, this, _levelUIHolder.GetLevelUI<LevelLoseScrene>());
-        states[typeof(LevelPauseState)] = new LevelPauseState(_stateMachine, _pauser, 
-            _levelUIHolder.GetLevelUI<PauseMenuUI>());
+        states[typeof(LevelPauseState)] = new LevelPauseState(_player ,_stateMachine, _pauser);
     }
 
 }

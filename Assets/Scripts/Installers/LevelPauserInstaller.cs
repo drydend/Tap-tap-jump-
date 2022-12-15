@@ -1,12 +1,16 @@
-﻿using Zenject;
+﻿using UnityEngine;
+using Zenject;
 
 public class LevelPauserInstaller : MonoInstaller
 {
+    [SerializeField]
+    private PauseMenuUI _pauseMenu;
+
     private LevelPauser _levelPauser;
 
     public override void InstallBindings()
     {
-        _levelPauser = new LevelPauser();
+        _levelPauser = new LevelPauser(_pauseMenu);
         BindPauser();
     }
 

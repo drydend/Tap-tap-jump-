@@ -29,8 +29,6 @@ public class Player : MonoBehaviour
     private Vector2 _previousVelocity = Vector2.zero;
     private float _gravityScale;
 
-    private bool _isMovementPaused;
-
     private bool _isStoping;
 
     public event Action OnDie;
@@ -42,17 +40,6 @@ public class Player : MonoBehaviour
 
         _rigidbody = GetComponent<Rigidbody2D>();
         _gravityScale = _rigidbody.gravityScale;
-    }
-
-    public void DisableMovement()
-    {
-        _previousVelocity = _rigidbody.velocity;
-        _rigidbody.velocity = Vector2.zero;
-    }
-
-    public void EnableMovement()
-    {
-        _rigidbody.velocity = _previousVelocity;
     }
 
     public void EnableGravity()
@@ -84,6 +71,16 @@ public class Player : MonoBehaviour
     public void Die()
     {
         OnDie?.Invoke();
+    }
+
+    public void Pause()
+    {
+        DisableMovement();
+    }
+
+    public void Unpause()
+    {
+        EnableMovement();
     }
 
     public IEnumerator PlayDeathAnimation()
@@ -124,5 +121,16 @@ public class Player : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         _isStoping = false;
+    }
+
+    private void DisableMovement()
+    {
+        _previousVelocity = _rigidbody.velocity;
+        _rigidbody.velocity = Vector2.zero;
+    }
+
+    private void EnableMovement()
+    {
+        _rigidbody.velocity = _previousVelocity;
     }
 }

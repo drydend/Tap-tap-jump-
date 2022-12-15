@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-public class MovingObstacle : MonoBehaviour
+public class MovingObstacle : MonoBehaviour, IPauseable
 {   
     [SerializeField]
     private Transform _startPosition;
@@ -16,10 +16,23 @@ public class MovingObstacle : MonoBehaviour
     private Transform _currentEndPosition;
     private Transform _currentStartPosition;
 
+    private bool _isPaused;
+
     [Inject]
-    public void Construct(ILevelStartTrigger levelStartTrigger)
+    public void Construct(ILevelStartTrigger levelStartTrigger, LevelPauser levelPauser)
     {
         levelStartTrigger.OnLevelStart += StartMoving;
+        levelPauser.Subscribe(this);
+    }
+
+    public void Pause()
+    {
+        _isPaused = true;
+    }
+
+    public void Unpause()
+    {
+        _isPaused = false;
     }
 
     private void StartMoving()
@@ -49,6 +62,11 @@ public class MovingObstacle : MonoBehaviour
 
         while(timeElapsed <= 1)
         {
+            if (_isPaused)
+            {
+                yield return null;
+            }
+
             var value = _speedCurve.Evaluate(timeElapsed);
             var newPosition = Vector2.Lerp(_currentStartPosition.position, _currentEndPosition.position, value);
             transform.position = newPosition;

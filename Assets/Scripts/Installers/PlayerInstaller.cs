@@ -9,14 +9,16 @@ public class PlayerInstaller : MonoInstaller
 
     [SerializeField]
     private Player _playerPrefab;
+    private Player _playerInstance;
+
     public override void InstallBindings()
     {
-        var player = Instantiate(_playerPrefab, _startPosition.position, Quaternion.identity);
-        player.Initialize(_startPosition, _cameraShaker);
+        _playerInstance = Instantiate(_playerPrefab, _startPosition.position, Quaternion.identity);
+        _playerInstance.Initialize(_startPosition, _cameraShaker);
 
         Container
             .Bind<Player>()
-            .FromInstance(player)
+            .FromInstance(_playerInstance)
             .AsSingle();
     }
 }
