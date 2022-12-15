@@ -9,48 +9,76 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _jumpForce;
     [SerializeField]
+    private float _stopAcceleration;
+    [SerializeField]
     private ParticleSystem _deathParticle;
+    [SerializeField]
+    private TrailRenderer _trailRenderer;
+    [SerializeField]
+    private GameObject _model;
 
+    [SerializeField]
+    private float _deathCameraShakeRadius;
+    [SerializeField]
+    private float _deathCameraShakeDuration;
+
+    private CameraShaker _cameraShaker;
     private Transform _startPosition;
     private Rigidbody2D _rigidbody;
-    private bool _isMovementEnable;
+
     private Vector2 _previousVelocity = Vector2.zero;
+    private float _gravityScale;
+
+    private bool _isMovementPaused;
+
+    private bool _isStoping;
 
     public event Action OnDie;
 
-    public void Initialize(Transform startPosition)
+    public void Initialize(Transform startPosition, CameraShaker cameraShaker)
     {
         _startPosition = startPosition;
-    }
+        _cameraShaker = cameraShaker;
 
-    public void EnableMovement()
-    {
-        _rigidbody.simulated = true;
-        _rigidbody.velocity = _previousVelocity;
-        _isMovementEnable = true;
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _gravityScale = _rigidbody.gravityScale;
     }
 
     public void DisableMovement()
     {
         _previousVelocity = _rigidbody.velocity;
-        _rigidbody.simulated = false;
-        _isMovementEnable = false;
+        _rigidbody.velocity = Vector2.zero;
+    }
+
+    public void EnableMovement()
+    {
+        _rigidbody.velocity = _previousVelocity;
+    }
+
+    public void EnableGravity()
+    {
+        _rigidbody.gravityScale = _gravityScale;
+    }
+
+    public void DisableGravity()
+    {
+        _rigidbody.gravityScale = 0;
     }
 
     public void Jump(Vector2 direction)
-    {
-        if (!_isMovementEnable)
-        {
-            return;
-        }
-
+    {   
         _rigidbody.velocity = direction * _jumpForce;
     }
-    public void ResetToStartPosition()
-    {
-        gameObject.SetActive(false);
+
+    public void ResetToStartState()
+    {   
+        _previousVelocity = Vector2.zero;
+        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.simulated = true;
+
+        _model.SetActive(true);
         transform.position = _startPosition.position;
-        gameObject.SetActive(true);
+        _trailRenderer.Clear();
     }
 
     public void Die()
@@ -60,12 +88,41 @@ public class Player : MonoBehaviour
 
     public IEnumerator PlayDeathAnimation()
     {
-        yield break;
+        _rigidbody.simulated = false;
+        _model.SetActive(false);
+        Instantiate(_deathParticle, transform.position, Quaternion.identity);
+        _cameraShaker.Shake(_deathCameraShakeDuration, _deathCameraShakeRadius);
+        yield return new WaitForSeconds(_deathCameraShakeDuration);
     }
 
-    private void Awake()
+    public IEnumerator SmoothStopRoutine()
+    {   
+        yield return SmoothStopRoutine(_stopAcceleration);
+    }
+
+    public IEnumerator SmoothStopRoutine(float acceleration)
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
+        if (_isStoping)
+        {
+            yield break;
+        }
 
+        _isStoping = true;
+
+        while (_rigidbody.velocity.sqrMagnitude != 0)
+        {
+            var accelerationVelocity = (-_rigidbody.velocity).normalized
+                * acceleration * Time.fixedDeltaTime;
+
+            _rigidbody.velocity += accelerationVelocity;
+
+            if(_rigidbody.velocity.magnitude < 0.5)
+            {
+                _rigidbody.velocity = Vector2.zero;
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+        _isStoping = false;
+    }
 }

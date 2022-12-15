@@ -13,11 +13,17 @@ public class LevelWinState : BaseState
 
     public override void Enter()
     {
-        _levelCompleteScrene.Open();
+        Coroutines.StartRoutine(EnterRoutine());
     }
 
     public override void Exit()
     {
         _levelCompleteScrene.Close();
+    }
+
+    private IEnumerator EnterRoutine()
+    {
+        yield return _player.SmoothStopRoutine();
+        _levelCompleteScrene.Open();
     }
 }

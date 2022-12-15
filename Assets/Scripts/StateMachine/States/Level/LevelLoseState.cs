@@ -39,6 +39,8 @@ public class LevelLoseState : BaseState
 
     private IEnumerator EnterRoutine()
     {
+        yield return _player.PlayDeathAnimation();
+
         yield return _loseScrene.Open();
         _level.RestartLevel();
     }

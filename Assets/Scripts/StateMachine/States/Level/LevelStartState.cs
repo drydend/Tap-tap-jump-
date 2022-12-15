@@ -15,8 +15,8 @@ public class LevelStartState : BaseState
     public override void Enter()
     {
         _menuUI.Open();
-        _player.DisableMovement();
-        _player.ResetToStartPosition();
+        _player.DisableGravity();
+        _player.ResetToStartState();
         _menuUI.OnLevelStart += StartGame;
     }
 

@@ -1,5 +1,4 @@
-﻿using ModestTree;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class CameraFollower : MonoBehaviour
