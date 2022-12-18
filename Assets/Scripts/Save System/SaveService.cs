@@ -3,41 +3,26 @@ using System.Collections.Generic;
 
 public class SaveService
 {
-    private List<ISaveable> _saveables = new List<ISaveable>();
-    
-    private Dictionary<Type, SaveData> _data = new Dictionary<Type, SaveData>();
+    private SaveData _saveData;
 
-    public void SubscribeToSaving(ISaveable saveable)
+    private ISaver _saver;
+    public SaveService(ISaver saver)
     {
-        _saveables.Add(saveable);
+        _saver = saver;
     }
 
-    public void UnsubscribeToSaving(ISaveable saveable)
+    public void Save(SaveData saveData)
     {
-        _saveables.Remove(saveable);
+        _saver.SaveData(saveData);
     }
-    public void Save()
+
+    public SaveData GetData()
     {
-        foreach (var saveable in _saveables)
+        if (_saveData == null)
         {
-            var data = saveable.GetSaveData();
-            _data[data.GetType()] = data;
-        }
-    }
-
-    public void LoadAllData()
-    {
-        
-    }
-
-
-    public T GetData<T>() where T : SaveData, new()
-    {
-        if (!_data.ContainsKey(typeof(T)))
-        {
-            return new T();
+            _saveData = _saver.LoadData();
         }
 
-        return (T) _data[typeof(T)];
+        return _saveData;
     }
 }

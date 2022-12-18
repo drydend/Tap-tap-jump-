@@ -1,45 +1,94 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Game : ISaveable
+public class Game
 {
+    public const int LevelsNumber = 50;
+
+    private const string MainMenuSceneName = "MainMenu";
     private const string LevelNamePrefix = "Level";
 
-    private int _currentLevelNumber;
     private SceneLoader _sceneLoader;
-    private SaveService _saveSerivce;
+    private SaveService _saveService;
 
-    public Game(SaveService saveSerivce, SceneLoader sceneLoader)
+    private int _currentLevelNumber;
+
+
+    public bool IsTutorialCompleated { get; private set; }
+    public int LastUnlockedLevel { get; private set; }
+    public Dictionary<int, LevelData> LevelsData { get; private set; }
+
+    public Game(SaveService saveService, SceneLoader sceneLoader)
     {
-        _saveSerivce = saveSerivce;
+        _saveService = saveService;
         _sceneLoader = sceneLoader;
     }
 
     public void StartGame()
     {
-        _saveSerivce.SubscribeToSaving(this);
+        Application.quitting += Save;
 
-        Application.quitting += _saveSerivce.Save;
-        _saveSerivce.LoadAllData();
-        _currentLevelNumber = _saveSerivce.GetData<LevelNumberSaveData>().LevelNumber;
+        var saveData = _saveService.GetData();
 
-        _sceneLoader.LoadInitialLevel(LevelNamePrefix + _currentLevelNumber.ToString());
+        LastUnlockedLevel = saveData.LastLevelNumber;
+        LevelsData = saveData.LevelsData;
+        IsTutorialCompleated = saveData.IsTutorialCompleated;
+
+        _sceneLoader.LoadSceneAsInitial(MainMenuSceneName);
+    }
+
+    public void LoadMainMenu()
+    {
+        _sceneLoader.LoadScene(MainMenuSceneName);
+    }
+
+    public void PlayLevel(int levelNumber)
+    {
+        if (levelNumber > LevelsNumber)
+        {
+            throw new Exception($"Can not launch level #{levelNumber}");
+        }
+
+        _currentLevelNumber = levelNumber;
+        StartCurrentLevel();
     }
 
     public void RestartLevel()
     {
-        _saveSerivce.Save();
-        _sceneLoader.LoadInitialLevel(LevelNamePrefix + _currentLevelNumber.ToString());
+        StartCurrentLevel();
     }
 
     public void StartNextLevel()
     {
+        if (_currentLevelNumber >= LevelsNumber)
+        {
+            return;
+        }
+
         _currentLevelNumber++;
-        _saveSerivce.Save();
-        _sceneLoader.LoadLevel(LevelNamePrefix + _currentLevelNumber.ToString());
+        StartCurrentLevel();
     }
 
-    public SaveData GetSaveData()
+    public void OnCurrentLevelCompleated()
     {
-        return new LevelNumberSaveData(_currentLevelNumber);
+        if (_currentLevelNumber == LastUnlockedLevel && LastUnlockedLevel <= LevelsNumber)
+        {
+            LastUnlockedLevel++;
+            LevelsData[LastUnlockedLevel].Unlock();
+        }
+
+        LevelsData[_currentLevelNumber] = new LevelData(true, true);
+    }
+
+    private void StartCurrentLevel()
+    {
+        _sceneLoader.LoadScene(LevelNamePrefix + _currentLevelNumber.ToString());
+    }
+
+    private void Save()
+    {
+        var saveData = new SaveData(LastUnlockedLevel, IsTutorialCompleated, LevelsData);
+        _saveService.Save(saveData);
     }
 }

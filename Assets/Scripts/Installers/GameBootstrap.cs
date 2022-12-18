@@ -7,7 +7,7 @@ public class GameBootstrap : MonoInstaller
 
     public override void InstallBindings()
     {
-        _saveSerivce = new SaveService();
+        _saveSerivce = new SaveService(new JsonSaver());
         _game = new Game(_saveSerivce, new SceneLoader());
 
         InstallSaveService();

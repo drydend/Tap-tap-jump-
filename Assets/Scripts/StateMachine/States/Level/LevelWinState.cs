@@ -2,17 +2,20 @@
 
 public class LevelWinState : BaseState
 {
-    private LevelCompleteScrene _levelCompleteScrene;
     private Player _player;
+    private Level _level;
+    private LevelCompleteScrene _levelCompleteScrene;
 
-    public LevelWinState(Player player, LevelCompleteScrene levelCompleteScrene)
+    public LevelWinState(Player player,Level level , LevelCompleteScrene levelCompleteScrene)
     {
         _player = player;
+        _level = level;
         _levelCompleteScrene = levelCompleteScrene;
     }
 
     public override void Enter()
     {
+        _level.OnLevelCompleated();
         Coroutines.StartRoutine(EnterRoutine());
     }
 

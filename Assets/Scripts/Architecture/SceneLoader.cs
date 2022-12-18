@@ -4,30 +4,30 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader
 {
-    public void LoadInitialLevel(string levelName)
+    public void LoadSceneAsInitial(string sceneName)
     {
-        Coroutines.StartRoutine(LoadInitialLevelRoutine(levelName));
+        Coroutines.StartRoutine(LoadInitialLevelRoutine(sceneName));
     }
 
-    public void LoadLevel(string levelName)
+    public void LoadScene(string sceneName)
     {
-        Coroutines.StartRoutine(LoadLevelRoutine(levelName));
+        Coroutines.StartRoutine(LoadLevelRoutine(sceneName));
     }
 
-    private IEnumerator LoadInitialLevelRoutine(string levelName)
+    private IEnumerator LoadInitialLevelRoutine(string sceneName)
     {
-        yield return SceneManager.LoadSceneAsync(levelName);
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
+        yield return SceneManager.LoadSceneAsync(sceneName);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
         yield return SceneTransition.Instance.InAnimationRoutine();
     }
 
-    private IEnumerator LoadLevelRoutine(string levelName)
+    private IEnumerator LoadLevelRoutine(string sceneName)
     {
         yield return SceneTransition.Instance.OutAnimationRoutine();
 
-        yield return SceneManager.LoadSceneAsync(levelName);
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
+        yield return SceneManager.LoadSceneAsync(sceneName);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
         yield return SceneTransition.Instance.InAnimationRoutine();
     }
