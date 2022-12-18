@@ -5,12 +5,13 @@ using Zenject;
 
 public class Level : MonoBehaviour
 {
+    protected Game _game;
+
     [SerializeField]
     private CameraFollower _cameraFollower;
 
     private StateMachine _stateMachine;
 
-    private Game _game;
     private Player _player;
     private LevelUIHolder _levelUIHolder;
     private LevelWinTrigger _winTrigger;
@@ -27,7 +28,7 @@ public class Level : MonoBehaviour
         _pauser = levelPauser;
     }
 
-    public void OnLevelCompleated()
+    public virtual void OnLevelCompleated()
     {
         _game.OnCurrentLevelCompleated();
     }

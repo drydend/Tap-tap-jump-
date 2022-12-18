@@ -7,13 +7,13 @@ public class Game
     public const int LevelsNumber = 50;
 
     private const string MainMenuSceneName = "MainMenu";
+    private const string TutorialSceneName = "Tutorial";
     private const string LevelNamePrefix = "Level";
 
     private SceneLoader _sceneLoader;
     private SaveService _saveService;
 
     private int _currentLevelNumber;
-
 
     public bool IsTutorialCompleated { get; private set; }
     public int LastUnlockedLevel { get; private set; }
@@ -28,8 +28,11 @@ public class Game
     public void StartGame()
     {
         Application.quitting += Save;
-
         var saveData = _saveService.GetData();
+
+#if UNITY_EDITOR
+        saveData = new SaveData();
+#endif
 
         LastUnlockedLevel = saveData.LastLevelNumber;
         LevelsData = saveData.LevelsData;
@@ -51,7 +54,15 @@ public class Game
         }
 
         _currentLevelNumber = levelNumber;
-        StartCurrentLevel();
+
+        if (!IsTutorialCompleated)
+        {
+            StartTutorial();
+        }
+        else
+        {
+            StartCurrentLevel();
+        }
     }
 
     public void RestartLevel()
@@ -70,6 +81,11 @@ public class Game
         StartCurrentLevel();
     }
 
+    public void OnTutorialCompleated()
+    {
+        IsTutorialCompleated = true;
+    }
+
     public void OnCurrentLevelCompleated()
     {
         if (_currentLevelNumber == LastUnlockedLevel && LastUnlockedLevel <= LevelsNumber)
@@ -81,9 +97,14 @@ public class Game
         LevelsData[_currentLevelNumber] = new LevelData(true, true);
     }
 
-    private void StartCurrentLevel()
+    public void StartCurrentLevel()
     {
         _sceneLoader.LoadScene(LevelNamePrefix + _currentLevelNumber.ToString());
+    }
+
+    private void StartTutorial()
+    {
+        _sceneLoader.LoadScene(TutorialSceneName);
     }
 
     private void Save()
