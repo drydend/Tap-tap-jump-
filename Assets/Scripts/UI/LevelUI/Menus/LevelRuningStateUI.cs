@@ -1,4 +1,4 @@
-﻿public class LevelRuningStateUI : LevelUI
+﻿public class LevelRuningStateUI : AnimatedUIMenu
 {
 
 }

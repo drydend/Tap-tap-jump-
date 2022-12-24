@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
 [RequireComponent(typeof(Button))]
-public class NextLevelButton : MonoBehaviour
+public class NextLevelButton : MonoBehaviour, IInteractableUI
 {
     private Game _game;
+
+    public event Action OnPlayerInteracted;
 
     [Inject]
     public void Construct(Game game)
@@ -15,6 +18,12 @@ public class NextLevelButton : MonoBehaviour
 
     private void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(_game.StartNextLevel);
+        GetComponent<Button>().onClick.AddListener(StartNextLevel);
+    }
+
+    private void StartNextLevel()
+    {
+        OnPlayerInteracted?.Invoke();
+        _game.StartNextLevel();
     }
 }

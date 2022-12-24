@@ -14,7 +14,7 @@ public class LevelStartState : BaseState
 
     public override void Enter()
     {
-        _menuUI.Open();
+        Coroutines.StartRoutine(_menuUI.Open());
         _player.DisableGravity();
         _player.ResetToStartState();
         _menuUI.OnLevelStart += StartGame;
@@ -22,7 +22,7 @@ public class LevelStartState : BaseState
 
     public override void Exit()
     {
-        _menuUI.Close();
+        Coroutines.StartRoutine(_menuUI.Close());
         _menuUI.OnLevelStart -= StartGame;
     }
 

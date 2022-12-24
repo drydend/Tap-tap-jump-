@@ -6,15 +6,17 @@ public class LevelPauser
 {
     private List<IPauseable> _pauseables = new List<IPauseable>();
     private PauseMenuUI _pauseMenu;
+    private UIMenuHandler _menuHandler;
 
     public bool IsPaused { get; private set; }
 
     public event Action OnLevelPaused;
     public event Action OnLevelUnpaused;
 
-    public LevelPauser(PauseMenuUI pauseMenu)
+    public LevelPauser(PauseMenuUI pauseMenu, UIMenuHandler menuHandler)
     {
         _pauseMenu = pauseMenu;
+        _menuHandler = menuHandler;
     }
 
     public void Subscribe(IPauseable pauseable)
@@ -22,7 +24,7 @@ public class LevelPauser
         _pauseables.Add(pauseable);
     }
 
-    public void Unsubscribe(IPauseable pauseable)
+    public void UnSubscribe(IPauseable pauseable)
     {
         _pauseables.Remove(pauseable);
     }
@@ -35,7 +37,7 @@ public class LevelPauser
         }
 
 
-        _pauseMenu.Open();
+        _menuHandler.OpenMenu(_pauseMenu);
 
         IsPaused = true;
 
@@ -47,7 +49,7 @@ public class LevelPauser
         OnLevelPaused?.Invoke();
     }
 
-    public void Unpause()
+    public void UnPause()
     {
         if (!IsPaused)
         {
@@ -64,7 +66,7 @@ public class LevelPauser
             yield break;
         }
 
-        yield return _pauseMenu.Close();
+        yield return _menuHandler.CloseCurrentMenu();
 
         foreach (var pauseable in _pauseables)
         {

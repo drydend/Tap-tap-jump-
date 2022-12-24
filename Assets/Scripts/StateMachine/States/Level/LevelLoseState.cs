@@ -34,7 +34,7 @@ public class LevelLoseState : BaseState
             Coroutines.StopRoutine(_openingCoroutine);
         }
 
-        _loseScrene.Close();
+        Coroutines.StartRoutine(_loseScrene.Close());
     }
 
     private IEnumerator EnterRoutine()

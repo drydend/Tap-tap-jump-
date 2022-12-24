@@ -4,9 +4,9 @@ using UnityEngine;
 public class LevelUIHolder : MonoBehaviour
 {
     [SerializeField]
-    private List<LevelUI> _levelUI;
+    private List<UIMenu> _levelUI;
 
-    public T GetLevelUI<T>() where T : LevelUI
+    public T GetLevelUI<T>() where T : UIMenu
     {
         foreach (var ui in _levelUI)
         {

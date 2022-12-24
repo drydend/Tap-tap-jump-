@@ -13,8 +13,9 @@ public class Game
     private SceneLoader _sceneLoader;
     private SaveService _saveService;
 
-    private int _currentLevelNumber;
+    private Settings _settings;
 
+    public int CurrentLevelNumber { get; private set; }
     public bool IsTutorialCompleated { get; private set; }
     public int LastUnlockedLevel { get; private set; }
     public Dictionary<int, LevelData> LevelsData { get; private set; }
@@ -37,47 +38,68 @@ public class Game
         LastUnlockedLevel = saveData.LastLevelNumber;
         LevelsData = saveData.LevelsData;
         IsTutorialCompleated = saveData.IsTutorialCompleated;
+        _settings = saveData.Settings;
 
         _sceneLoader.LoadSceneAsInitial(MainMenuSceneName);
     }
 
     public void LoadMainMenu()
     {
+        if (_sceneLoader.IsLoading)
+        {
+            return;
+        }
+
         _sceneLoader.LoadScene(MainMenuSceneName);
     }
 
     public void PlayLevel(int levelNumber)
     {
+        if (_sceneLoader.IsLoading)
+        {
+            return;
+        }
+
         if (levelNumber > LevelsNumber)
         {
             throw new Exception($"Can not launch level #{levelNumber}");
         }
 
-        _currentLevelNumber = levelNumber;
+        CurrentLevelNumber = levelNumber;
 
-        if (!IsTutorialCompleated)
+        if (IsTutorialCompleated)
         {
-            StartTutorial();
+            StartCurrentLevel();
         }
         else
         {
-            StartCurrentLevel();
+            StartTutorial();
         }
     }
 
     public void RestartLevel()
     {
+        if (_sceneLoader.IsLoading)
+        {
+            return;
+        }
+
         StartCurrentLevel();
     }
 
     public void StartNextLevel()
     {
-        if (_currentLevelNumber >= LevelsNumber)
+        if (_sceneLoader.IsLoading)
         {
             return;
         }
 
-        _currentLevelNumber++;
+        if (CurrentLevelNumber >= LevelsNumber)
+        {
+            return;
+        }
+
+        CurrentLevelNumber++;
         StartCurrentLevel();
     }
 
@@ -88,28 +110,38 @@ public class Game
 
     public void OnCurrentLevelCompleated()
     {
-        if (_currentLevelNumber == LastUnlockedLevel && LastUnlockedLevel <= LevelsNumber)
+        if (CurrentLevelNumber == LastUnlockedLevel && LastUnlockedLevel <= LevelsNumber)
         {
             LastUnlockedLevel++;
             LevelsData[LastUnlockedLevel].Unlock();
         }
 
-        LevelsData[_currentLevelNumber] = new LevelData(true, true);
+        LevelsData[CurrentLevelNumber] = new LevelData(true, true);
     }
 
     public void StartCurrentLevel()
     {
-        _sceneLoader.LoadScene(LevelNamePrefix + _currentLevelNumber.ToString());
+        if (_sceneLoader.IsLoading)
+        {
+            return;
+        }
+
+        _sceneLoader.LoadScene(LevelNamePrefix + CurrentLevelNumber.ToString());
     }
 
     private void StartTutorial()
     {
+        if (_sceneLoader.IsLoading)
+        {
+            return;
+        }
+
         _sceneLoader.LoadScene(TutorialSceneName);
     }
 
     private void Save()
     {
-        var saveData = new SaveData(LastUnlockedLevel, IsTutorialCompleated, LevelsData);
+        var saveData = new SaveData(LastUnlockedLevel, IsTutorialCompleated, LevelsData, _settings);
         _saveService.Save(saveData);
     }
 }

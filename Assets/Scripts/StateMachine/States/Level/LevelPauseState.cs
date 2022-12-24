@@ -25,7 +25,7 @@ public class LevelPauseState : BaseState
 
         if (_pauser.IsPaused)
         {
-            _pauser.Unpause();
+            _pauser.UnPause();
         }
     }
 

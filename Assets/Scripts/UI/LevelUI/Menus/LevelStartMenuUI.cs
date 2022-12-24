@@ -3,23 +3,23 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class LevelStartMenuUI : LevelUI, ILevelStartTrigger
+public class LevelStartMenuUI : AnimatedUIMenu, ILevelStartTrigger
 {
     [SerializeField]
     private PlayerInput _input;
 
     public event Action OnLevelStart;
 
-    public override void Close()
+    public override IEnumerator Close()
     {
-        base.Close();
         _input.OnPlayerTap -= TriggerLevelStart;
+        yield return base.Close();
     }
 
-    public override void Open()
+    public override IEnumerator Open()
     {
-        base.Open();
         _input.OnPlayerTap += TriggerLevelStart;
+        yield return base.Open();
     }
 
     private void TriggerLevelStart()

@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
 
     private Player _player;
     private Camera _camera;
+    private bool _isActive = true;
 
     public event Action OnPlayerTap;
 
@@ -19,12 +20,27 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
         _player = player;
     }
 
+    public void DisableInput()
+    {
+        _isActive = false;
+    }
+
+    public void EnableInput()
+    {
+        _isActive = true;
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (!_isActive)
+        {
+            return;
+        }
+
         OnPlayerTap?.Invoke();
 
         var clickPosition = _camera.ScreenToWorldPoint(eventData.position);
-        var jumpDirection = (Vector2) (_camera.transform.position - clickPosition);
+        var jumpDirection = (Vector2)(_camera.transform.position - clickPosition);
         jumpDirection.Normalize();
 
         if (_invertControl)

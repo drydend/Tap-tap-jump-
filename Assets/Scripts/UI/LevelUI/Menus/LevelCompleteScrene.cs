@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class LevelCompleteScrene : LevelUI
+public class LevelCompleteScrene : AnimatedUIMenu
 {
 
 }

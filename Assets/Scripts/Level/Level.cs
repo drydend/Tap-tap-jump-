@@ -9,6 +9,8 @@ public class Level : MonoBehaviour
 
     [SerializeField]
     private CameraFollower _cameraFollower;
+    [SerializeField]
+    private PlayerInput _playerInput;
 
     private StateMachine _stateMachine;
 
@@ -18,7 +20,7 @@ public class Level : MonoBehaviour
     private LevelPauser _pauser;
 
     [Inject]
-    public void Construct(Game game , Player player, LevelUIHolder levelUIHolder, 
+    public void Construct(Game game, Player player, LevelUIHolder levelUIHolder,
         LevelWinTrigger levelWinTrigger, LevelPauser levelPauser)
     {
         _game = game;
@@ -54,13 +56,13 @@ public class Level : MonoBehaviour
         var states = new Dictionary<Type, BaseState>();
         _stateMachine = new StateMachine(states);
 
-        states[typeof(LevelStartState)] =  new LevelStartState(_stateMachine, _player, 
+        states[typeof(LevelStartState)] = new LevelStartState(_stateMachine, _player,
             _levelUIHolder.GetLevelUI<LevelStartMenuUI>());
         states[typeof(LevelRuningState)] = new LevelRuningState(_stateMachine,
-            _levelUIHolder.GetLevelUI<LevelRuningStateUI>(),_player, _winTrigger, _pauser);
-        states[typeof(LevelWinState)] = new LevelWinState(_player,this,  _levelUIHolder.GetLevelUI<LevelCompleteScrene>());
+            _levelUIHolder.GetLevelUI<LevelRuningStateUI>(), _player, _winTrigger, _pauser);
+        states[typeof(LevelWinState)] = new LevelWinState(_player, this, _playerInput, _levelUIHolder.GetLevelUI<LevelCompleteScrene>());
         states[typeof(LevelLoseState)] = new LevelLoseState(_player, this, _levelUIHolder.GetLevelUI<LevelLoseScrene>());
-        states[typeof(LevelPauseState)] = new LevelPauseState(_player ,_stateMachine, _pauser);
+        states[typeof(LevelPauseState)] = new LevelPauseState(_player, _stateMachine, _pauser);
     }
 
 }

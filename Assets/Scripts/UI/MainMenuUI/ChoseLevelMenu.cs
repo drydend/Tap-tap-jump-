@@ -1,12 +1,10 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class ChoseLevelMenu : UIMenu
+public class ChoseLevelMenu : AnimatedUIMenu
 {
-    [SerializeField]
-    private GameObject _menu;
-
     [SerializeField]
     private ScrollRect _scrollRect;
     [SerializeField]
@@ -23,14 +21,9 @@ public class ChoseLevelMenu : UIMenu
         _game = game;
     }
 
-    public override void Close()
+    public override IEnumerator Open()
     {
-        _menu.SetActive(false);
-    }
-
-    public override void Open()
-    {
-        _menu.SetActive(true);
+        yield return base.Open();
         _scrollRect.verticalNormalizedPosition = (_game.LastUnlockedLevel - 1) / (float)Game.LevelsNumber;
     }
 

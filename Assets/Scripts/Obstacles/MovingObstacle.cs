@@ -3,25 +3,37 @@ using UnityEngine;
 using Zenject;
 
 public class MovingObstacle : MonoBehaviour, IPauseable
-{   
+{
     [SerializeField]
     private Transform _startPosition;
     [SerializeField]
     private Transform _endPosition;
+    [Space]
     [SerializeField]
     private AnimationCurve _speedCurve;
+    [Space]
     [SerializeField]
     private float _moveTime;
+    [SerializeField]
+    private float _startDelay;
+    [SerializeField]
+    private float _delayBetweenMoving;
+
+    [Space]
+    [SerializeField]
+    private bool _loop;
 
     private Transform _currentEndPosition;
     private Transform _currentStartPosition;
 
     private bool _isPaused;
 
+    private LevelPauser _levelPauser;
+
     [Inject]
-    public void Construct(ILevelStartTrigger levelStartTrigger, LevelPauser levelPauser)
+    public void Construct(LevelPauser levelPauser)
     {
-        levelStartTrigger.OnLevelStart += StartMoving;
+        _levelPauser = levelPauser;
         levelPauser.Subscribe(this);
     }
 
@@ -33,6 +45,11 @@ public class MovingObstacle : MonoBehaviour, IPauseable
     public void Unpause()
     {
         _isPaused = false;
+    }
+
+    private void Start()
+    {
+        StartMoving();
     }
 
     private void StartMoving()
@@ -49,10 +66,18 @@ public class MovingObstacle : MonoBehaviour, IPauseable
 
     private IEnumerator MovingRoutine()
     {
+        yield return new WaitForSeconds(_startDelay);
+
         while (true)
         {
             yield return MoveToDesiredPositionRoutine();
-            SwapPositions();
+            yield return new WaitForSeconds(_delayBetweenMoving);
+
+
+            if (_loop)
+            {
+                SwapPositions();
+            }
         }
     }
 
@@ -60,7 +85,7 @@ public class MovingObstacle : MonoBehaviour, IPauseable
     {
         float timeElapsed = 0;
 
-        while(timeElapsed <= 1)
+        while (timeElapsed <= 1)
         {
             if (_isPaused)
             {
@@ -68,10 +93,11 @@ public class MovingObstacle : MonoBehaviour, IPauseable
             }
 
             var value = _speedCurve.Evaluate(timeElapsed);
-            var newPosition = Vector2.Lerp(_currentStartPosition.position, _currentEndPosition.position, value);
+            var newPosition = Vector2.Lerp(_currentStartPosition.position, 
+                _currentEndPosition.position, timeElapsed);
             transform.position = newPosition;
 
-            timeElapsed += Time.deltaTime / _moveTime;
+            timeElapsed += Time.deltaTime / _moveTime * value;
             yield return null;
         }
     }
@@ -81,5 +107,10 @@ public class MovingObstacle : MonoBehaviour, IPauseable
         var temp = _currentStartPosition;
         _currentStartPosition = _currentEndPosition;
         _currentEndPosition = temp;
+    }
+
+    private void OnDestroy()
+    {
+        _levelPauser.UnSubscribe(this);
     }
 }

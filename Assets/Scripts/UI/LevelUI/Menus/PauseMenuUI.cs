@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PauseMenuUI : LevelUI
+public class PauseMenuUI : AnimatedUIMenu
 {
     new public IEnumerator Close()
     {

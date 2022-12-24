@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UIMenuHandler : MonoBehaviour
@@ -10,26 +11,58 @@ public class UIMenuHandler : MonoBehaviour
 
     public void Start()
     {
-        _startMenu.Open();
-        _openedMenus.Push(_startMenu);
+        if (_startMenu != null)
+        {
+            StartCoroutine(_startMenu.Open());
+            _openedMenus.Push(_startMenu);
+        }
     }
 
     public void OpenMenu(UIMenu menu)
     {
-        _openedMenus.Peek().Close();
-        menu.Open();
-
-        _openedMenus.Push(menu);
-    }
-
-    public void BackToPreviousMenu()
-    {
-        if(_openedMenus.Count < 1)
+        if (_openedMenus.TryPeek(out UIMenu currentMenu) && currentMenu.IsAnimated)
         {
             return;
         }
 
-        _openedMenus.Pop().Close();
-        _openedMenus.Peek().Open();
+        StartCoroutine(OpenMenuRoutine(menu));
+    }
+
+    public void BackToPreviousMenu()
+    {
+        if (_openedMenus.TryPeek(out UIMenu currentMenu) && currentMenu.IsAnimated)
+        {
+            return;
+        }
+
+        if (_openedMenus.Count < 1)
+        {
+            return;
+        }
+
+        StartCoroutine(BackToPreviousMenuRoutine());
+    }
+
+    public IEnumerator CloseCurrentMenu()
+    {
+        yield return _openedMenus.Pop().Close();
+    }
+
+    private IEnumerator OpenMenuRoutine(UIMenu menu)
+    {
+        if (_openedMenus.Count > 0)
+        {
+            yield return _openedMenus.Peek().Close();
+        }
+
+        _openedMenus.Push(menu);
+        yield return menu.Open();
+    }
+
+    private IEnumerator BackToPreviousMenuRoutine()
+    {
+        yield return _openedMenus.Peek().Close();
+        _openedMenus.Pop();
+        yield return _openedMenus.Peek().Open();
     }
 }

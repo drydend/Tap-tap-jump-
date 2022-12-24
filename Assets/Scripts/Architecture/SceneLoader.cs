@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader
-{
+{   
+    public bool IsLoading { get; private set; }
     public void LoadSceneAsInitial(string sceneName)
     {
         Coroutines.StartRoutine(LoadInitialLevelRoutine(sceneName));
@@ -16,8 +17,12 @@ public class SceneLoader
 
     private IEnumerator LoadInitialLevelRoutine(string sceneName)
     {
+        IsLoading = true;
+
         yield return SceneManager.LoadSceneAsync(sceneName);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+
+        IsLoading = false;
 
         yield return SceneTransition.Instance.InAnimationRoutine();
     }
@@ -26,8 +31,12 @@ public class SceneLoader
     {
         yield return SceneTransition.Instance.OutAnimationRoutine();
 
+        IsLoading = true;
+
         yield return SceneManager.LoadSceneAsync(sceneName);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+
+        IsLoading = false;
 
         yield return SceneTransition.Instance.InAnimationRoutine();
     }

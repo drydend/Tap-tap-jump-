@@ -2,11 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class LevelLoseScrene : LevelUI
+public class LevelLoseScrene : AnimatedUIMenu
 {
-    new public IEnumerator Open()
-    {
-        base.Open();
-        yield return new WaitForSeconds(Animator.GetCurrentAnimatorClipInfo(0).Length);
-    }
+
 }

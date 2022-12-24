@@ -22,7 +22,7 @@ public class LevelRuningState : BaseState
     public override void Enter()
     {
         _player.EnableGravity();
-        _levelUI.Open();
+        Coroutines.StartRoutine(_levelUI.Open());
         
         _winTrigger.OnPlayerWin += OnPlayerWin;
         _player.OnDie += OnPlayerLost;
@@ -31,7 +31,7 @@ public class LevelRuningState : BaseState
 
     public override void Exit()
     {
-        _levelUI.Close();
+        Coroutines.StartRoutine(_levelUI.Close());
         _player.DisableGravity();
         
         _winTrigger.OnPlayerWin -= OnPlayerWin;

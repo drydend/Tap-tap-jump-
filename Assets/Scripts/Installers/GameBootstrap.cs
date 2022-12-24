@@ -5,13 +5,18 @@ public class GameBootstrap : MonoInstaller
     private SaveService _saveSerivce;
     private Game _game;
 
+    private Settings _settings;
+
     public override void InstallBindings()
     {
         _saveSerivce = new SaveService(new JsonSaver());
         _game = new Game(_saveSerivce, new SceneLoader());
 
+        _settings = _saveSerivce.GetData().Settings;
+
         InstallSaveService();
         InstallGame();
+        InstallSettings();
     }
 
     public override void Start()
@@ -32,6 +37,14 @@ public class GameBootstrap : MonoInstaller
         Container
             .Bind<SaveService>()
             .FromInstance(_saveSerivce)
+            .AsSingle();
+    }
+
+    private void InstallSettings()
+    {
+        Container
+            .Bind<Settings>()
+            .FromInstance(_settings)
             .AsSingle();
     }
 }
