@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class JsonSaver : ISaver
 {
+#if UNITY_EDITOR
     private string DataPath => Application.dataPath + "/SaveData.save";
+#else
+
+    private string DataPath => Application.persistentDataPath + "/SaveData.save";
+
+#endif
 
     public SaveData LoadData()
     {

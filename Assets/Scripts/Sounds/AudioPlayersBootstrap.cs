@@ -25,8 +25,8 @@ public class AudioPlayersBootstrap : MonoBehaviour
         audioListener.name = "Audio Listener";
 
         var backgroundMusicPlayer = Instantiate(_backgroundMusicPlayerPrefab);
-        backgroundMusicPlayer.Initialize(_settings);
         backgroundMusicPlayer.SetMusicList(_musicList);
+        backgroundMusicPlayer.Initialize(_settings);
         
         var soundsPlayer = Instantiate(_soundsPlayerPrefab);
         soundsPlayer.Initialize(_settings);

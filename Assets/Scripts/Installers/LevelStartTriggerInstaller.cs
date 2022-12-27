@@ -1,5 +1,4 @@
-﻿using UnityEditor.Tilemaps;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class LevelStartTriggerInstaller : MonoInstaller

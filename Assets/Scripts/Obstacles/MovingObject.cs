@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-public class MovingObstacle : MonoBehaviour, IPauseable
+public class MovingObject : MonoBehaviour, IPauseable
 {
     [SerializeField]
     private Transform _startPosition;
@@ -94,10 +94,10 @@ public class MovingObstacle : MonoBehaviour, IPauseable
 
             var value = _speedCurve.Evaluate(timeElapsed);
             var newPosition = Vector2.Lerp(_currentStartPosition.position, 
-                _currentEndPosition.position, timeElapsed);
+                _currentEndPosition.position, value);
             transform.position = newPosition;
 
-            timeElapsed += Time.deltaTime / _moveTime * value;
+            timeElapsed += Time.deltaTime / _moveTime;
             yield return null;
         }
     }

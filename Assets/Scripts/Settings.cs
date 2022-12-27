@@ -4,7 +4,7 @@ public class Settings
 {
     private bool _isMusicOn;
     private bool _isSoundsOn;
-
+    private bool _isControlInverted;
     public bool IsMusicOn
     {
         get
@@ -33,19 +33,36 @@ public class Settings
         }
     }
 
+    public bool IsControlInverted
+    {
+        get
+        {
+            return _isMusicOn;
+        }
+
+        set
+        {
+            _isMusicOn = value;
+            IsControlInvertedChanged?.Invoke();
+        }
+    }
+
     public event Action IsMusicOnChanged;
     public event Action IsSoundsOnChanged;
+    public event Action IsControlInvertedChanged;
 
-    public Settings(bool isMusicOn, bool isSoundsOn)
+    public Settings(bool isMusicOn, bool isSoundsOn, bool isControlInverted)
     {
-        IsMusicOn = isMusicOn;
-        IsSoundsOn = isSoundsOn;
+        _isMusicOn = isMusicOn;
+        _isSoundsOn = isSoundsOn;
+        _isControlInverted = isControlInverted;
     }
 
     public Settings()
     {
         _isMusicOn = true;
         _isSoundsOn = true;
+        _isControlInverted = false;
     }
 
 }

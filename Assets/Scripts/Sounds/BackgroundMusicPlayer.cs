@@ -26,6 +26,9 @@ public class BackgroundMusicPlayer : MonoBehaviour
         _settings = settings;
         _settings.IsMusicOnChanged += ChangeState;
 
+        _audioSource = GetComponent<AudioSource>();
+        StartCoroutine(PlayRoutine());
+
         if (Instance == null)
         {
             Instance = this;
@@ -46,12 +49,6 @@ public class BackgroundMusicPlayer : MonoBehaviour
         _audioSource.Stop();
         _audioSource.clip = _musicList.GetRandomClip();
         _audioSource.Play();
-    }
-
-    private void Start()
-    {
-        _audioSource = GetComponent<AudioSource>();
-        StartCoroutine(PlayRoutine());
     }
 
     private void ChangeState()

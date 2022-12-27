@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using UnityEngine;
+using Zenject;
 
 public class GameBootstrap : MonoInstaller
 {
@@ -8,20 +9,19 @@ public class GameBootstrap : MonoInstaller
     private Settings _settings;
 
     public override void InstallBindings()
-    {
+    {   
+        Application.targetFrameRate = 120;
+
+
         _saveSerivce = new SaveService(new JsonSaver());
         _game = new Game(_saveSerivce, new SceneLoader());
-
         _settings = _saveSerivce.GetData().Settings;
 
-        InstallSaveService();
-        InstallGame();
-        InstallSettings();
-    }
 
-    public override void Start()
-    {
-        _game.StartGame();
+        InstallGame();
+        InstallSaveService();
+
+        InstallSettings();
     }
 
     private void InstallGame()

@@ -5,19 +5,26 @@ using Zenject;
 
 public class PlayerInput : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField]
+    private const float MaxXDirection = 0.714f; 
+
     private bool _invertControl;
 
     private Player _player;
     private Camera _camera;
     private bool _isActive = true;
+    private Settings _settings;
 
     public event Action OnPlayerTap;
 
+
+
     [Inject]
-    public void Construct(Player player)
+    public void Construct(Player player, Settings settings)
     {
         _player = player;
+        _settings = settings;
+        _invertControl = settings.IsControlInverted;
+        settings.IsControlInvertedChanged += UpdateInvertionOfControl;
     }
 
     public void DisableInput()
@@ -43,19 +50,26 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
         var jumpDirection = (Vector2)(_camera.transform.position - clickPosition);
         jumpDirection.Normalize();
 
-        if (_invertControl)
+        if (!_invertControl)
         {
-            var x = jumpDirection.x * -1;
-            jumpDirection.x = jumpDirection.y;
-            jumpDirection.y = x;
+            jumpDirection.x *= -1;
         }
 
         _player.Jump(jumpDirection);
     }
 
-
     private void Awake()
     {
         _camera = Camera.main;
+    }
+
+    private void OnDestroy()
+    {
+        _settings.IsControlInvertedChanged -= UpdateInvertionOfControl;
+    }
+
+    private void UpdateInvertionOfControl()
+    {
+        _invertControl = _settings.IsControlInverted;
     }
 }

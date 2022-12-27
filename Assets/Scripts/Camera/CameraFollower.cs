@@ -38,6 +38,6 @@ public class CameraFollower : MonoBehaviour
     {
         var yPosition = Mathf.Clamp(_player.transform.position.y, _minYPosition.position.y, _maxYPosition.position.y);
         var desiredPosition = new Vector3(transform.position.x, yPosition, -10);
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, _lerpFactor * Time.deltaTime * _lerpScale);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, _lerpFactor * Time.fixedDeltaTime * _lerpScale);
     }
 }
