@@ -8,8 +8,6 @@ public class Level : MonoBehaviour
     protected Game _game;
 
     [SerializeField]
-    private CameraFollower _cameraFollower;
-    [SerializeField]
     private PlayerInput _playerInput;
 
     private StateMachine _stateMachine;
@@ -18,16 +16,18 @@ public class Level : MonoBehaviour
     private LevelUIHolder _levelUIHolder;
     private LevelWinTrigger _winTrigger;
     private LevelPauser _pauser;
+    private LevelReseter _reseter;
 
     [Inject]
     public void Construct(Game game, Player player, LevelUIHolder levelUIHolder,
-        LevelWinTrigger levelWinTrigger, LevelPauser levelPauser)
+        LevelWinTrigger levelWinTrigger, LevelPauser levelPauser, LevelReseter levelReseter)
     {
         _game = game;
         _player = player;
         _levelUIHolder = levelUIHolder;
         _winTrigger = levelWinTrigger;
         _pauser = levelPauser;
+        _reseter = levelReseter;
     }
 
     public virtual void OnLevelCompleated()
@@ -38,7 +38,7 @@ public class Level : MonoBehaviour
     public void RestartLevel()
     {
         _stateMachine.SwitchState<LevelStartState>();
-        _cameraFollower.ResetPosition();
+        _reseter.ResetLevel();
     }
 
     private void Awake()

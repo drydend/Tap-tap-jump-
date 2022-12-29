@@ -581,6 +581,7 @@ MonoBehaviour:
   - {fileID: 256569519}
   - {fileID: 1963463351}
   - {fileID: 1282732519}
+  - {fileID: 734183676}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -616,6 +617,7 @@ Transform:
   - {fileID: 256569520}
   - {fileID: 1963463352}
   - {fileID: 1282732518}
+  - {fileID: 734183677}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -663,7 +665,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c47ed80727fda44825f5885390c3f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraFollower: {fileID: 1727236850}
   _playerInput: {fileID: 2048539314}
 --- !u!1 &423289295
 GameObject:
@@ -1510,6 +1511,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7540760658297691710, guid: 79ab812cdbf3c6648ac5ffe4913410b0, type: 3}
   m_PrefabInstance: {fileID: 628361897}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &734183675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 734183677}
+  - component: {fileID: 734183676}
+  m_Layer: 0
+  m_Name: Level Reseter Installer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &734183676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734183675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154c58094658ccb47843455479fd9d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &734183677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734183675}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 354469467}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &897848374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2561,17 +2606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e75e9375efa6cbf47b43f0778176a751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1727236850 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1444466296184599649, guid: 81b53c810659a0a44ba8f86a6c977f9d, type: 3}
-  m_PrefabInstance: {fileID: 1727236848}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4d4a4f993c0f864daaed987aa71a1ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1783033174
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,7 +3153,7 @@ PrefabInstance:
     - target: {fileID: 1799906887523942600, guid: a097ada3c1d3efc4dac8dd3e79b79c79, type: 3}
       propertyPath: _level
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 381096618}
     - target: {fileID: 1799906887534635769, guid: a097ada3c1d3efc4dac8dd3e79b79c79, type: 3}
       propertyPath: _levelEndPosition
       value: 
@@ -3219,7 +3253,7 @@ PrefabInstance:
     - target: {fileID: 1799906888365520610, guid: a097ada3c1d3efc4dac8dd3e79b79c79, type: 3}
       propertyPath: _level
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 381096618}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a097ada3c1d3efc4dac8dd3e79b79c79, type: 3}
 --- !u!114 &2048539310 stripped

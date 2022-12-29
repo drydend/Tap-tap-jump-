@@ -97,8 +97,8 @@ public class MovingObject : MonoBehaviour, IPauseable
                 _currentEndPosition.position, value);
             transform.position = newPosition;
 
-            timeElapsed += Time.deltaTime / _moveTime;
-            yield return null;
+            timeElapsed += Time.fixedDeltaTime / _moveTime;
+            yield return new WaitForFixedUpdate();
         }
     }
 

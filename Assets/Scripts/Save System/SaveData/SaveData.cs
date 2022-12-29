@@ -21,7 +21,7 @@ public class SaveData
     public SaveData()
     {
         LastLevelNumber = 1;
-        IsTutorialCompleated = true;
+        IsTutorialCompleated = false;
 
         LevelsData = new Dictionary<int, LevelData>();
 

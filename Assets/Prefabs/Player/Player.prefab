@@ -178,7 +178,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 8
   m_Material: {fileID: 6200000, guid: fcc86badaa7938d44bcff34528f2bb12, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -196,8 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ce548c1ab7d9d4796eccf8973acb96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpForce: 18
-  _stopAcceleration: 30
+  _jumpForce: 27
+  _stopAcceleration: 50
   _deathParticle: {fileID: 3625966702622486477, guid: 5a978c1631595714a9a0d9c300aad23e, type: 3}
   _trailRenderer: {fileID: 554359105075144819}
   _model: {fileID: 2673067914220366033}
@@ -245,7 +245,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.25
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

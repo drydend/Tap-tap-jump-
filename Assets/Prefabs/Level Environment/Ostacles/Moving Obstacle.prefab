@@ -265,7 +265,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _moveTime: 0.8
+  _moveTime: 1.2
   _startDelay: 0
   _delayBetweenMoving: 0
   _loop: 1

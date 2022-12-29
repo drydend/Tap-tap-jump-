@@ -5,7 +5,7 @@ using Zenject;
 
 public class PlayerInput : MonoBehaviour, IPointerDownHandler
 {
-    private const float MaxXDirection = 0.714f; 
+    //private const float MaxXDirection = 0.714f;
 
     private bool _invertControl;
 
@@ -15,8 +15,6 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
     private Settings _settings;
 
     public event Action OnPlayerTap;
-
-
 
     [Inject]
     public void Construct(Player player, Settings settings)
@@ -50,10 +48,7 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
         var jumpDirection = (Vector2)(_camera.transform.position - clickPosition);
         jumpDirection.Normalize();
 
-        if (!_invertControl)
-        {
-            jumpDirection.x *= -1;
-        }
+        jumpDirection.x *= _invertControl.ToInt();
 
         _player.Jump(jumpDirection);
     }
