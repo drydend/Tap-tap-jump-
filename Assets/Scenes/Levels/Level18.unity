@@ -5802,7 +5802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 361281274}
-  _menuHandler: {fileID: 0}
+  _menuHandler: {fileID: 361281272}
 --- !u!4 &1963463352
 Transform:
   m_ObjectHideFlags: 0

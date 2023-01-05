@@ -2484,7 +2484,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 664265844908767687, guid: 5d73c030712a984478deb3fa2cb7cacf, type: 3}
       propertyPath: _moveTime
-      value: 0.9
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 664265844908767687, guid: 5d73c030712a984478deb3fa2cb7cacf, type: 3}
       propertyPath: _delayBetweenMoving
@@ -2720,7 +2720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 664265844908767687, guid: 5d73c030712a984478deb3fa2cb7cacf, type: 3}
       propertyPath: _moveTime
-      value: 0.9
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 664265844908767687, guid: 5d73c030712a984478deb3fa2cb7cacf, type: 3}
       propertyPath: _delayBetweenMoving
@@ -4036,7 +4036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 361281274}
-  _menuHandler: {fileID: 0}
+  _menuHandler: {fileID: 361281272}
 --- !u!4 &1963463352
 Transform:
   m_ObjectHideFlags: 0

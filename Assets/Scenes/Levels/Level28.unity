@@ -905,6 +905,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1161424209}
     m_Modifications:
+    - target: {fileID: 576394812233121232, guid: 08406b61fdc89d540a98e1d7710c348a, type: 3}
+      propertyPath: _rotationSpeed
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 576394812233121246, guid: 08406b61fdc89d540a98e1d7710c348a, type: 3}
       propertyPath: m_Name
       value: Rotating Obstacle (4)
@@ -1255,7 +1259,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3345204925751000032, guid: 54ef5989f264c9742a7d95a842814c2c, type: 3}
       propertyPath: _rotationSpeed
-      value: -30
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 3345204925751000046, guid: 54ef5989f264c9742a7d95a842814c2c, type: 3}
       propertyPath: m_Name
@@ -1316,7 +1320,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3345204925751000032, guid: 54ef5989f264c9742a7d95a842814c2c, type: 3}
       propertyPath: _rotationSpeed
-      value: -30
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 3345204925751000046, guid: 54ef5989f264c9742a7d95a842814c2c, type: 3}
       propertyPath: m_Name
@@ -1382,7 +1386,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3345204925751000032, guid: 54ef5989f264c9742a7d95a842814c2c, type: 3}
       propertyPath: _rotationSpeed
-      value: -30
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 3345204925751000046, guid: 54ef5989f264c9742a7d95a842814c2c, type: 3}
       propertyPath: m_Name
@@ -1446,6 +1450,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1161424209}
     m_Modifications:
+    - target: {fileID: 576394812233121232, guid: 08406b61fdc89d540a98e1d7710c348a, type: 3}
+      propertyPath: _rotationSpeed
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 576394812233121246, guid: 08406b61fdc89d540a98e1d7710c348a, type: 3}
       propertyPath: m_Name
       value: Rotating Obstacle (1)
@@ -3556,7 +3564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 361281274}
-  _menuHandler: {fileID: 0}
+  _menuHandler: {fileID: 361281272}
 --- !u!4 &1963463352
 Transform:
   m_ObjectHideFlags: 0

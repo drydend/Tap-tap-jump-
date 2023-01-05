@@ -11,6 +11,8 @@ public class GameBootstrap : MonoInstaller
     public override void InstallBindings()
     {   
         Application.targetFrameRate = Screen.currentResolution.refreshRate + 10;
+        var screenScaler = new CameraScaler();
+        screenScaler.ScaleCamera();
 
         _saveSerivce = new SaveService(new JsonSaver());
         _game = new Game(_saveSerivce, new SceneLoader());

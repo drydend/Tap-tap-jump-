@@ -1231,6 +1231,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moving Obstacle 1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9073320310209959407, guid: 115f7e92016a210439597e83b30823f8, type: 3}
+      propertyPath: _startDelay
+      value: 0.75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 115f7e92016a210439597e83b30823f8, type: 3}
 --- !u!4 &533931731 stripped
@@ -1976,7 +1980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9073320310209959407, guid: 115f7e92016a210439597e83b30823f8, type: 3}
       propertyPath: _startDelay
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 115f7e92016a210439597e83b30823f8, type: 3}
@@ -3462,7 +3466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 361281274}
-  _menuHandler: {fileID: 0}
+  _menuHandler: {fileID: 361281272}
 --- !u!4 &1963463352
 Transform:
   m_ObjectHideFlags: 0

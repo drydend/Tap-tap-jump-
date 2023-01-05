@@ -169,6 +169,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lerpFactor: 0.9
-  _lerpScale: 5
+  _lerpScale: 3
   _maxYPosition: {fileID: 0}
   _minYPosition: {fileID: 0}

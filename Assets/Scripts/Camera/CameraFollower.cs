@@ -2,7 +2,10 @@
 using Zenject;
 
 public class CameraFollower : MonoBehaviour, IResetable
-{
+{   
+    private static float _yOffSet = 0f;
+    private static float _cameraSize = 25f;
+
     [SerializeField, Range(0f, 1f)]
     private float _lerpFactor;
     [SerializeField]
@@ -14,6 +17,12 @@ public class CameraFollower : MonoBehaviour, IResetable
     private Transform _minYPosition;
 
     private Player _player;
+
+    public static void SetScaleValues(float yOffSet, float cameraSize)
+    {
+        _yOffSet = yOffSet;
+        _cameraSize = cameraSize;
+    }
 
     [Inject]
     public void Construct(Player player, LevelReseter reseter)
@@ -28,20 +37,24 @@ public class CameraFollower : MonoBehaviour, IResetable
 
     private void ResetPosition()
     {
-        var yPosition = Mathf.Clamp(_player.transform.position.y, _minYPosition.position.y, _maxYPosition.position.y);
+        var yPosition = Mathf.Clamp(_player.transform.position.y, _minYPosition.position.y + _yOffSet
+            , _maxYPosition.position.y - _yOffSet);
         var desiredPosition = new Vector3(transform.position.x, yPosition, -10);
         transform.position = desiredPosition;
     }
 
     private void Awake()
-    {
-        transform.position = new Vector3 (transform.position.x,_player.transform.position.y, -10);
+    {   
+        Camera.main.orthographicSize = _cameraSize;
+        transform.position = new Vector3 (transform.position.x,_player.transform.position.y + _yOffSet, -10);
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        var yPosition = Mathf.Clamp(_player.transform.position.y, _minYPosition.position.y, _maxYPosition.position.y);
+        var yPosition = Mathf.Clamp(_player.transform.position.y, _minYPosition.position.y + _yOffSet,
+            _maxYPosition.position.y - _yOffSet);
         var desiredPosition = new Vector3(transform.position.x, yPosition, -10);
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, _lerpFactor * Time.fixedDeltaTime * _lerpScale);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition,
+            _lerpFactor * Time.deltaTime  * _lerpScale);
     }
 }

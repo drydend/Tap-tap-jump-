@@ -159,6 +159,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moving Obstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 6050086198242726342, guid: 28c6d6909cf186d4abb7477d309c1db1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9156000959644182710, guid: 28c6d6909cf186d4abb7477d309c1db1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28c6d6909cf186d4abb7477d309c1db1, type: 3}
 --- !u!1 &2533099526633219878 stripped
@@ -178,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057bae0059f3146408fde4bdd5699bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 60
+  _rotationSpeed: 120
 --- !u!4 &4103168265391227737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3586716367626893977, guid: 28c6d6909cf186d4abb7477d309c1db1, type: 3}

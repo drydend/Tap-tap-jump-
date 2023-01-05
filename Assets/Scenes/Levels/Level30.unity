@@ -254,7 +254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7136016160001157010, guid: 0baef288e3f484c4fb77db43101b132e, type: 3}
       propertyPath: _movementSpeed
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7136016160834543051, guid: 0baef288e3f484c4fb77db43101b132e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4069,7 +4069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 361281274}
-  _menuHandler: {fileID: 0}
+  _menuHandler: {fileID: 361281272}
 --- !u!4 &1963463352
 Transform:
   m_ObjectHideFlags: 0

@@ -57,7 +57,7 @@ public class Level : MonoBehaviour
         _stateMachine = new StateMachine(states);
 
         states[typeof(LevelStartState)] = new LevelStartState(_stateMachine, _player,
-            _levelUIHolder.GetLevelUI<LevelStartMenuUI>());
+            _levelUIHolder.GetLevelUI<LevelStartMenuUI>(), _pauser);
         states[typeof(LevelRuningState)] = new LevelRuningState(_stateMachine,
             _levelUIHolder.GetLevelUI<LevelRuningStateUI>(), _player, _winTrigger, _pauser);
         states[typeof(LevelWinState)] = new LevelWinState(_player, this, _playerInput, _levelUIHolder.GetLevelUI<LevelCompleteScrene>());

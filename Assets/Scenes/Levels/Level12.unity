@@ -727,7 +727,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 171703792910058691, guid: 5b38d4ef21cc4a54d92a5823e594e812, type: 3}
       propertyPath: _rotationSpeed
-      value: 30
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 171703792910058700, guid: 5b38d4ef21cc4a54d92a5823e594e812, type: 3}
       propertyPath: m_RootOrder
@@ -2714,7 +2714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 361281274}
-  _menuHandler: {fileID: 0}
+  _menuHandler: {fileID: 361281272}
 --- !u!4 &1963463352
 Transform:
   m_ObjectHideFlags: 0
