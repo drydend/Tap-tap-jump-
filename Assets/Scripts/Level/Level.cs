@@ -56,10 +56,10 @@ public class Level : MonoBehaviour
         var states = new Dictionary<Type, BaseState>();
         _stateMachine = new StateMachine(states);
 
-        states[typeof(LevelStartState)] = new LevelStartState(_stateMachine, _player,
+        states[typeof(LevelStartState)] = new LevelStartState(_stateMachine, _player,_playerInput,
             _levelUIHolder.GetLevelUI<LevelStartMenuUI>(), _pauser);
         states[typeof(LevelRuningState)] = new LevelRuningState(_stateMachine,
-            _levelUIHolder.GetLevelUI<LevelRuningStateUI>(), _player, _winTrigger, _pauser);
+            _levelUIHolder.GetLevelUI<LevelRuningStateUI>(), _player,_playerInput ,_winTrigger, _pauser);
         states[typeof(LevelWinState)] = new LevelWinState(_player, this, _playerInput, _levelUIHolder.GetLevelUI<LevelCompleteScrene>());
         states[typeof(LevelLoseState)] = new LevelLoseState(_player, this, _levelUIHolder.GetLevelUI<LevelLoseScrene>());
         states[typeof(LevelPauseState)] = new LevelPauseState(_player, _stateMachine, _pauser);

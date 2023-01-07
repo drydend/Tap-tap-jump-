@@ -3,7 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]  
+[RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
     [SerializeField]
@@ -22,6 +22,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _deathCameraShakeDuration;
 
+    [SerializeField]
+    private AudioClip _jumpSound;
+    [SerializeField]
+    private AudioClip _deathSound;
+
     private CameraShaker _cameraShaker;
     private Transform _startPosition;
     private Rigidbody2D _rigidbody;
@@ -30,6 +35,7 @@ public class Player : MonoBehaviour
     private float _gravityScale;
 
     private bool _isStoping;
+    private bool _isDead;
 
     public event Action OnDie;
 
@@ -55,10 +61,11 @@ public class Player : MonoBehaviour
     public void Jump(Vector2 direction)
     {   
         _rigidbody.velocity = direction * _jumpForce;
+        SoundsPlayer.Instance.Play(_jumpSound);
     }
 
     public void ResetToStartState()
-    {   
+    {
         _previousVelocity = Vector2.zero;
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.simulated = true;
@@ -85,6 +92,7 @@ public class Player : MonoBehaviour
 
     public IEnumerator PlayDeathAnimation()
     {
+        SoundsPlayer.Instance.Play(_jumpSound);
         _rigidbody.simulated = false;
         _model.SetActive(false);
         Instantiate(_deathParticle, transform.position, Quaternion.identity);
@@ -93,7 +101,7 @@ public class Player : MonoBehaviour
     }
 
     public IEnumerator SmoothStopRoutine()
-    {   
+    {
         yield return SmoothStopRoutine(_stopAcceleration);
     }
 
@@ -113,7 +121,7 @@ public class Player : MonoBehaviour
 
             _rigidbody.velocity += accelerationVelocity;
 
-            if(_rigidbody.velocity.magnitude < 0.5)
+            if (_rigidbody.velocity.magnitude < 0.5)
             {
                 _rigidbody.velocity = Vector2.zero;
             }

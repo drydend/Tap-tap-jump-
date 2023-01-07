@@ -203,6 +203,8 @@ MonoBehaviour:
   _model: {fileID: 2673067914220366033}
   _deathCameraShakeRadius: 0.2
   _deathCameraShakeDuration: 0.3
+  _jumpSound: {fileID: 8300000, guid: 5e26fbe3792f2324490dadaa22542e8f, type: 3}
+  _deathSound: {fileID: 8300000, guid: 0d12d4ed248554746b4595bd87dc8a91, type: 3}
 --- !u!96 &554359105075144819
 TrailRenderer:
   serializedVersion: 2
@@ -245,7 +247,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.25
+  m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -254,30 +256,21 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.016636997
-        value: 0.5177905
-        inSlope: -0.7569327
-        outSlope: -0.7569327
+        value: 1
+        inSlope: -1.1311351
+        outSlope: -1.1311351
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.2277562
       - serializedVersion: 3
         time: 1
         value: 0
-        inSlope: 0
-        outSlope: 0
+        inSlope: -0.6848665
+        outSlope: -0.6848665
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.23177718
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2

@@ -27,7 +27,7 @@ public class ChoseLevelMenu : AnimatedUIMenu
         _scrollRect.verticalNormalizedPosition = (_game.LastUnlockedLevel - 1) / (float)Game.LevelsNumber;
     }
 
-    private void Awake()
+    private void Start()
     {
         for (int i = Game.LevelsNumber; i > 0; i--)
         {

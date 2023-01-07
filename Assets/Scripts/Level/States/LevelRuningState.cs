@@ -6,21 +6,24 @@ public class LevelRuningState : BaseState
     private StateMachine _stateMachine;
     private LevelRuningStateUI _levelUI;
     private Player _player;
+    private PlayerInput _playerInput;
     private LevelWinTrigger _winTrigger;
     private LevelPauser _pauser;
 
     public LevelRuningState(StateMachine stateMachine, LevelRuningStateUI levelUI,
-        Player player, LevelWinTrigger levelWinTrigger, LevelPauser pauser)
+        Player player,PlayerInput input ,LevelWinTrigger levelWinTrigger, LevelPauser pauser)
     {
         _stateMachine = stateMachine;
         _levelUI = levelUI;
         _player = player;
+        _playerInput = input;
         _winTrigger = levelWinTrigger;
         _pauser = pauser;
     }
 
     public override void Enter()
     {
+        _playerInput.EnableInput();
         _player.EnableGravity();
         Coroutines.StartRoutine(_levelUI.Open());
         
@@ -31,6 +34,7 @@ public class LevelRuningState : BaseState
 
     public override void Exit()
     {
+        _playerInput.DisableInput();
         Coroutines.StartRoutine(_levelUI.Close());
         _player.DisableGravity();
         

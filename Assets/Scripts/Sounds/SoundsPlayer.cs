@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using Zenject;
 
 [RequireComponent(typeof(AudioSource))]
 public class SoundsPlayer : MonoBehaviour

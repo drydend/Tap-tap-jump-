@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-public abstract class BaseState
+﻿public abstract class BaseState
 {
     public abstract void Enter();
 

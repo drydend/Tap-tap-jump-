@@ -9,7 +9,7 @@ public class LevelLoseState : BaseState
 
     private Coroutine _openingCoroutine;
 
-    public LevelLoseState(Player player, Level level ,LevelLoseScrene levelLoseScrene)
+    public LevelLoseState(Player player,Level level ,LevelLoseScrene levelLoseScrene)
     {
         _level = level;
         _player = player;

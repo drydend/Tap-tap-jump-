@@ -29,12 +29,16 @@ public class MovingObject : MonoBehaviour, IPauseable
     private bool _isPaused;
 
     private LevelPauser _levelPauser;
+    private MovingObjectStarter _starter;
 
     [Inject]
-    public void Construct(LevelPauser levelPauser)
+    public void Construct(LevelPauser levelPauser, MovingObjectStarter starter)
     {
         _levelPauser = levelPauser;
+        _starter = starter;
+
         levelPauser.Subscribe(this);
+        starter.Subscribe(this);
     }
 
     public void Pause()
@@ -47,12 +51,7 @@ public class MovingObject : MonoBehaviour, IPauseable
         _isPaused = false;
     }
 
-    private void Start()
-    {
-        StartMoving();
-    }
-
-    private void StartMoving()
+    public void StartMoving()
     {
         ResetPositions();
         StartCoroutine(MovingRoutine());
@@ -66,39 +65,53 @@ public class MovingObject : MonoBehaviour, IPauseable
 
     private IEnumerator MovingRoutine()
     {
-        yield return new WaitForSeconds(_startDelay);
+        float timeElapsed = 0f;
+
+        while(timeElapsed < _startDelay)
+        {
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        float overTime = timeElapsed - _startDelay;
 
         while (true)
         {
-            yield return MoveToDesiredPositionRoutine();
-            yield return new WaitForSeconds(_delayBetweenMoving);
 
+            float animationTimeElapsed = overTime / _moveTime;
+
+            while (animationTimeElapsed <= 1)
+            {
+                while (_isPaused)
+                {
+                    yield return null;
+                }
+
+                var value = _speedCurve.Evaluate(animationTimeElapsed);
+                var newPosition = Vector2.Lerp(_currentStartPosition.position,
+                    _currentEndPosition.position, value);
+                transform.position = newPosition;
+
+                animationTimeElapsed += Time.deltaTime / _moveTime;
+                yield return null;
+            }
+
+
+            timeElapsed = 0;
+
+            while (timeElapsed < _delayBetweenMoving)
+            {
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            overTime = timeElapsed - _delayBetweenMoving ;
+            overTime += (animationTimeElapsed - 1) * _moveTime;
 
             if (_loop)
             {
                 SwapPositions();
             }
-        }
-    }
-
-    private IEnumerator MoveToDesiredPositionRoutine()
-    {
-        float timeElapsed = 0;
-
-        while (timeElapsed <= 1)
-        {
-            if (_isPaused)
-            {
-                yield return null;
-            }
-
-            var value = _speedCurve.Evaluate(timeElapsed);
-            var newPosition = Vector2.Lerp(_currentStartPosition.position, 
-                _currentEndPosition.position, value);
-            transform.position = newPosition;
-
-            timeElapsed += Time.fixedDeltaTime / _moveTime;
-            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -112,5 +125,6 @@ public class MovingObject : MonoBehaviour, IPauseable
     private void OnDestroy()
     {
         _levelPauser.UnSubscribe(this);
+        _starter.UnSubscribe(this);
     }
 }
