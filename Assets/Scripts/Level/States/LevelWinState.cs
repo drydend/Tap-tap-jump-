@@ -6,12 +6,12 @@ public class LevelWinState : BaseState
     private Player _player;
     private Level _level;
     private PlayerInput _playerInput;
-    private LevelCompleteScrene _levelCompleteScrene;
+    private CompleteScrene _levelCompleteScrene;
 
     private Coroutine _closingCoroutine;
     private Coroutine _openignCoroutine;
 
-    public LevelWinState(Player player,Level level ,PlayerInput playerInput , LevelCompleteScrene levelCompleteScrene)
+    public LevelWinState(Player player,Level level ,PlayerInput playerInput , CompleteScrene levelCompleteScrene)
     {
         _player = player;
         _level = level;

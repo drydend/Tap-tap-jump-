@@ -3,6 +3,9 @@ using Zenject;
 
 public class GameBootstrap : MonoInstaller
 {
+    [SerializeField]
+    private StaticDataProvider _staticDataProvider;
+
     private SaveService _saveSerivce;
     private Game _game;
 
@@ -11,7 +14,7 @@ public class GameBootstrap : MonoInstaller
     public override void InstallBindings()
     {   
         Application.targetFrameRate = Screen.currentResolution.refreshRate + 10;
-        var screenScaler = new CameraScaler();
+        var screenScaler = new CameraScaler(_staticDataProvider.CameraConfig);
         screenScaler.ScaleCamera();
 
         _saveSerivce = new SaveService(new JsonSaver());
@@ -21,8 +24,17 @@ public class GameBootstrap : MonoInstaller
 
         InstallGame();
         InstallSaveService();
-
+        InstallStaticDataProvider();
         InstallSettings();
+    }
+
+    private void InstallStaticDataProvider()
+    {
+        Container
+            .Bind<StaticDataProvider>()
+            .FromComponentInNewPrefab(_staticDataProvider)
+            .AsSingle()
+            .NonLazy();
     }
 
     private void InstallGame()

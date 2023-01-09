@@ -16,4 +16,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4f74a74a29c75454d96b3036dc196a3e, type: 3}
   - {fileID: 8300000, guid: b43c49821a2feff4ab227b6b0d85c37e, type: 3}
   - {fileID: 8300000, guid: c202892c34f9bc24282860cbcb82cc17, type: 3}
-  _clipCycle: 1
+  - {fileID: 8300000, guid: 927f86445a3e8f04e984f71038e921cb, type: 3}
+  - {fileID: 8300000, guid: fe3f56c027cd77f448dbe6644dd363d5, type: 3}
+  - {fileID: 8300000, guid: c7d50b3914a895f45a4c8fbf633487c8, type: 3}
+  _clipCycle: 2

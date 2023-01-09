@@ -17,6 +17,7 @@ public class JsonSaver : ISaver
         if (!File.Exists(DataPath))
         {
             File.Create(DataPath);
+            return new SaveData();
         }
 
         var json = File.ReadAllText(DataPath);

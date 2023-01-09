@@ -9,6 +9,8 @@ public class Level : MonoBehaviour
 
     [SerializeField]
     private PlayerInput _playerInput;
+    [SerializeField]
+    private LevelTimer _levelTimer;
 
     private StateMachine _stateMachine;
 
@@ -17,6 +19,11 @@ public class Level : MonoBehaviour
     private LevelWinTrigger _winTrigger;
     private LevelPauser _pauser;
     private LevelReseter _reseter;
+
+    public float BestCompleteTime => _game.LevelsData[_game.CurrentLevelNumber].BestCompleteTime;
+    public float LastCompleteTime { get; private set; }
+
+    public Action OnComplete;
 
     [Inject]
     public void Construct(Game game, Player player, LevelUIHolder levelUIHolder,
@@ -32,7 +39,10 @@ public class Level : MonoBehaviour
 
     public virtual void OnLevelCompleated()
     {
-        _game.OnCurrentLevelCompleated();
+        _levelTimer.Stop();
+        LastCompleteTime = _levelTimer.CurrentTime;
+        _game.OnCurrentLevelCompleated(_levelTimer.CurrentTime);
+        OnComplete?.Invoke();
     }
 
     public void RestartLevel()
@@ -60,7 +70,7 @@ public class Level : MonoBehaviour
             _levelUIHolder.GetLevelUI<LevelStartMenuUI>(), _pauser);
         states[typeof(LevelRuningState)] = new LevelRuningState(_stateMachine,
             _levelUIHolder.GetLevelUI<LevelRuningStateUI>(), _player,_playerInput ,_winTrigger, _pauser);
-        states[typeof(LevelWinState)] = new LevelWinState(_player, this, _playerInput, _levelUIHolder.GetLevelUI<LevelCompleteScrene>());
+        states[typeof(LevelWinState)] = new LevelWinState(_player, this, _playerInput, _levelUIHolder.GetLevelUI<CompleteScrene>());
         states[typeof(LevelLoseState)] = new LevelLoseState(_player, this, _levelUIHolder.GetLevelUI<LevelLoseScrene>());
         states[typeof(LevelPauseState)] = new LevelPauseState(_player, _stateMachine, _pauser);
     }

@@ -20,18 +20,18 @@ public class SaveData
 
     public SaveData()
     {
-        LastLevelNumber = 1;
-        IsTutorialCompleated = false;
-
         LevelsData = new Dictionary<int, LevelData>();
 
-        LevelsData[1] = new LevelData(true, false);
-
+        IsTutorialCompleated = false;
         Settings = new Settings();
+
+        LastLevelNumber = 1;
+        LevelsData[1] = new LevelData(true, false, 0);
+
 
         for (int i = 2; i <= Game.LevelsNumber; i++)
         {
-            LevelsData[i] = new LevelData(true, false);
+            LevelsData[i] = new LevelData(false, false, 0);
         }
     }
 }

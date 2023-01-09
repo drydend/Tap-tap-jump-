@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
 
     public IEnumerator PlayDeathAnimation()
     {
-        SoundsPlayer.Instance.Play(_jumpSound);
+        SoundsPlayer.Instance.Play(_deathSound);
         _rigidbody.simulated = false;
         _model.SetActive(false);
         Instantiate(_deathParticle, transform.position, Quaternion.identity);

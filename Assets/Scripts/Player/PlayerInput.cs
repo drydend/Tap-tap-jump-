@@ -5,23 +5,27 @@ using Zenject;
 
 public class PlayerInput : MonoBehaviour, IPointerDownHandler
 {
-    //private const float MaxXDirection = 0.714f;
+    private const float MaxAngle = 45f;
 
-    private bool _invertControl;
+    private bool _isControlInverted;
 
     private Player _player;
+    private Settings _settings;
+    private CameraConfig _cameraConfig;
+
     private Camera _camera;
     private bool _isActive = true;
-    private Settings _settings;
 
     public event Action OnPlayerTap;
 
     [Inject]
-    public void Construct(Player player, Settings settings)
+    public void Construct(Player player, Settings settings, StaticDataProvider staticDataProvider)
     {
         _player = player;
         _settings = settings;
-        _invertControl = settings.IsControlInverted;
+        _cameraConfig = staticDataProvider.CameraConfig;
+
+        _isControlInverted = settings.IsControlInverted;
         settings.IsControlInvertedChanged += UpdateInvertionOfControl;
     }
 
@@ -44,11 +48,15 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
 
         OnPlayerTap?.Invoke();
 
-        var clickPosition = _camera.ScreenToWorldPoint(eventData.position);
-        var jumpDirection = (Vector2)(_camera.transform.position - clickPosition);
-        jumpDirection.Normalize();
+        float clickPositionX = _camera.transform.position.x - 
+            _camera.ScreenToWorldPoint(eventData.position).x;
+        float direction = clickPositionX > 0 ? 1 : -1;
 
-        jumpDirection.x *= _invertControl.ToInt();
+        float angle = Mathf.Lerp(0, MaxAngle, Mathf.Abs(clickPositionX) / _cameraConfig.DesiredWidth);
+        var jumpDirection = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
+
+        jumpDirection.x *= direction;
+        jumpDirection.x *= _isControlInverted.ToInt();
 
         _player.Jump(jumpDirection);
     }
@@ -65,6 +73,6 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
 
     private void UpdateInvertionOfControl()
     {
-        _invertControl = _settings.IsControlInverted;
+        _isControlInverted = _settings.IsControlInverted;
     }
 }

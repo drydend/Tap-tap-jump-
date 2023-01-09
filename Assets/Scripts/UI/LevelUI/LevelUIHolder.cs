@@ -10,7 +10,7 @@ public class LevelUIHolder : MonoBehaviour
     {
         foreach (var ui in _levelUI)
         {
-            if(typeof(T) == ui.GetType())
+            if(typeof(T) == ui.GetType() || ui.GetType().IsSubclassOf(typeof(T)) )
             {
                 return (T) ui;
             }
