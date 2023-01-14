@@ -7,7 +7,7 @@ public class LevelCompleteTimingUI : MonoBehaviour
     private TimeUI _timeUI;
 
     [Inject]
-    public void Construct(Game game ,StaticDataProvider dataProvider)
+    public void Construct(Game game ,ConfigDataProvider dataProvider)
     {
         _timeUI.SetTime(dataProvider.LevelCompleteTimings[game.CurrentLevelNumber - 1]);
     }

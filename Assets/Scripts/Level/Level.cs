@@ -20,6 +20,8 @@ public class Level : MonoBehaviour
     private LevelPauser _pauser;
     private LevelReseter _reseter;
 
+    private AnalitycsFacade _analitics;
+
     public float BestCompleteTime => _game.LevelsData[_game.CurrentLevelNumber].BestCompleteTime;
     public float LastCompleteTime { get; private set; }
 
@@ -27,7 +29,8 @@ public class Level : MonoBehaviour
 
     [Inject]
     public void Construct(Game game, Player player, LevelUIHolder levelUIHolder,
-        LevelWinTrigger levelWinTrigger, LevelPauser levelPauser, LevelReseter levelReseter)
+        LevelWinTrigger levelWinTrigger, LevelPauser levelPauser, LevelReseter levelReseter,
+        AnalitycsFacade analitycs)
     {
         _game = game;
         _player = player;
@@ -35,13 +38,17 @@ public class Level : MonoBehaviour
         _winTrigger = levelWinTrigger;
         _pauser = levelPauser;
         _reseter = levelReseter;
+        _analitics = analitycs;
     }
 
     public virtual void OnLevelCompleated()
     {
         _levelTimer.Stop();
         LastCompleteTime = _levelTimer.CurrentTime;
+
+        _analitics.LogLevelCompleation(LastCompleteTime);
         _game.OnCurrentLevelCompleated(_levelTimer.CurrentTime);
+        
         OnComplete?.Invoke();
     }
 

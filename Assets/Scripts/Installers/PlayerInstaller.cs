@@ -13,8 +13,10 @@ public class PlayerInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        var _analitycs = Container.Resolve<AnalitycsFacade>();
+
         _playerInstance = Instantiate(_playerPrefab, _startPosition.position, Quaternion.identity);
-        _playerInstance.Initialize(_startPosition, _cameraShaker);
+        _playerInstance.Initialize(_startPosition, _cameraShaker, _analitycs);
 
         Container
             .Bind<Player>()

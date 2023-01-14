@@ -1,3 +1,4 @@
+using Firebase.Analytics;
 using System;
 using System.Collections;
 using Unity.VisualScripting;
@@ -37,12 +38,15 @@ public class Player : MonoBehaviour
     private bool _isStoping;
     private bool _isDead;
 
+    private AnalitycsFacade _analitycs;
+
     public event Action OnDie;
 
-    public void Initialize(Transform startPosition, CameraShaker cameraShaker)
+    public void Initialize(Transform startPosition, CameraShaker cameraShaker, AnalitycsFacade analitycs)
     {
         _startPosition = startPosition;
         _cameraShaker = cameraShaker;
+        _analitycs = analitycs;
 
         _rigidbody = GetComponent<Rigidbody2D>();
         _gravityScale = _rigidbody.gravityScale;
@@ -77,6 +81,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
+        _analitycs.LogPlayerDeath();
         OnDie?.Invoke();
     }
 

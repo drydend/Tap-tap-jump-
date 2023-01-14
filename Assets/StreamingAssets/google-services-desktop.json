@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "48818289757",
+    "project_id": "tap-tap-jump-30f5b",
+    "storage_bucket": "tap-tap-jump-30f5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48818289757:android:69fae1a64432cda0b3a1b4",
+        "android_client_info": {
+          "package_name": "com.drydend.TapTapJump"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48818289757-nvq07kbbnnskabis3fp3qtols1uteibh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnTpCeiASTACurXX9tuSgMUe_m2SEEoJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48818289757-nvq07kbbnnskabis3fp3qtols1uteibh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

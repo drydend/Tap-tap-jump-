@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 public class GameBootstrap : MonoInstaller
 {
     [SerializeField]
-    private StaticDataProvider _staticDataProvider;
+    private ConfigDataProvider _staticDataProvider;
 
     private SaveService _saveSerivce;
     private Game _game;
+    private AnalitycsFacade _analitycs;
 
     private Settings _settings;
 
@@ -20,18 +22,28 @@ public class GameBootstrap : MonoInstaller
         _saveSerivce = new SaveService(new JsonSaver());
         _game = new Game(_saveSerivce, new SceneLoader());
         _settings = _saveSerivce.GetData().Settings;
+        _analitycs = new AnalitycsFacade(_game);
 
-
+        _analitycs.SetupAnalitycs();
         InstallGame();
         InstallSaveService();
         InstallStaticDataProvider();
         InstallSettings();
+        InstallAnalitycs();
+    }
+
+    private void InstallAnalitycs()
+    {
+        Container
+           .Bind<AnalitycsFacade>()
+           .FromInstance(_analitycs)
+           .AsSingle();
     }
 
     private void InstallStaticDataProvider()
     {
         Container
-            .Bind<StaticDataProvider>()
+            .Bind<ConfigDataProvider>()
             .FromComponentInNewPrefab(_staticDataProvider)
             .AsSingle()
             .NonLazy();

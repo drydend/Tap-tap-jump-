@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class JsonSaver : ISaver
 {
-#if UNITY_EDITOR
-    private string DataPath => Application.dataPath + "/SaveData.save";
-#else
-
-    private string DataPath => Application.persistentDataPath + "/SaveData.save";
-
-#endif
+    private string DataPath => Application.persistentDataPath + "/SaveData.json";
 
     public SaveData LoadData()
     {
@@ -31,7 +25,7 @@ public class JsonSaver : ISaver
     }
 
     public void SaveData(SaveData data)
-    {
+    {   
         var jsonData = JsonConvert.SerializeObject(data);
         File.WriteAllText(DataPath, jsonData);
     }

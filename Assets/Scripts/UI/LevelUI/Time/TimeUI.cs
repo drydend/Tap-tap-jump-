@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(TMP_Text))]
 public class TimeUI : MonoBehaviour
 {
-    private const int MaxDecimalPlaces = 2;
+    private const int MaxDecimalPlaces = 1;
 
     private TMP_Text _text;
 
@@ -24,7 +24,7 @@ public class TimeUI : MonoBehaviour
     public void SetTime(float time)
     {
         int second = (int)time;
-        int decimalPlaces = (int)((time - second) * Mathf.Pow(10, MaxDecimalPlaces - 1));
+        int decimalPlaces = (int)((time - second) * Mathf.Pow(10, MaxDecimalPlaces ));
 
         Text.text = $"{second}.{decimalPlaces}";
     }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class StaticDataProvider : MonoBehaviour
+public class ConfigDataProvider : MonoBehaviour
 {
     [SerializeField]
     private LevelCompleateTimings _levelTimings;

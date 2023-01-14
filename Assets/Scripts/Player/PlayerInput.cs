@@ -19,7 +19,7 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler
     public event Action OnPlayerTap;
 
     [Inject]
-    public void Construct(Player player, Settings settings, StaticDataProvider staticDataProvider)
+    public void Construct(Player player, Settings settings, ConfigDataProvider staticDataProvider)
     {
         _player = player;
         _settings = settings;

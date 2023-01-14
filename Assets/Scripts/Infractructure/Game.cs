@@ -28,7 +28,7 @@ public class Game
 
     public void StartGame()
     {
-        Application.quitting += Save;
+        Application.focusChanged += TrySave;
         var saveData = _saveService.GetData();
 
         LastUnlockedLevel = saveData.LastLevelNumber;
@@ -106,13 +106,13 @@ public class Game
 
     public void OnCurrentLevelCompleated(float completeTime)
     {
-        if (CurrentLevelNumber == LastUnlockedLevel && LastUnlockedLevel <= LevelsNumber)
+        if (CurrentLevelNumber == LastUnlockedLevel && LastUnlockedLevel + 1 <= LevelsNumber)
         {
             LastUnlockedLevel++;
             LevelsData[LastUnlockedLevel].Unlock();
         }
 
-        if(LevelsData[CurrentLevelNumber].BestCompleteTime > completeTime)
+        if (LevelsData[CurrentLevelNumber].BestCompleteTime < completeTime)
         {
             completeTime = LevelsData[CurrentLevelNumber].BestCompleteTime;
         }
@@ -140,9 +140,12 @@ public class Game
         _sceneLoader.LoadScene(TutorialSceneName);
     }
 
-    private void Save()
+    private void TrySave(bool value)
     {
-        var saveData = new SaveData(LastUnlockedLevel, IsTutorialCompleated, LevelsData, _settings);
-        _saveService.Save(saveData);
+        if (!value)
+        {
+            var saveData = new SaveData(LastUnlockedLevel, IsTutorialCompleated, LevelsData, _settings);
+            _saveService.Save(saveData);
+        }
     }
 }
